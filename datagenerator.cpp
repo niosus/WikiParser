@@ -13,13 +13,12 @@ DataGenerator::DataGenerator(){}
 void DataGenerator::generateData()
 {
     getDataFromWikiXml();
-    showData();
-    emit resultReady("done");
+    emit resultReady(_words);
 }
 
 void DataGenerator::showData()
 {
-    QMap<QString, int>::iterator iter = _words.end()-1;
+    QHash<QString, int>::iterator iter = _words.end()-1;
     int counter = 0;
     const int maxCount = 100;
     while (true)
@@ -106,8 +105,6 @@ void DataGenerator::getDataFromWikiXml()
         QMessageBox::Ok);
         return;
     }
-
-    //close reader and flush file
     xmlReader->clear();
     xmlFile->close();
 }

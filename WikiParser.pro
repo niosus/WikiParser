@@ -16,12 +16,14 @@ QMAKE_CXXFLAGS += -std=c++0x
 SOURCES += main.cpp\
         mainwindow.cpp \
     datagenerator.cpp \
-    controller.cpp
+    controller.cpp \
+    resultwriter.cpp
 
 HEADERS  += mainwindow.h \
     datagenerator.h \
     worker_thread.h \
-    controller.h
+    controller.h \
+    resultwriter.h
 
 FORMS    += mainwindow.ui
 

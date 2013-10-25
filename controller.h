@@ -3,6 +3,7 @@
 
 #include "datagenerator.h"
 #include "worker_thread.h"
+#include "resultwriter.h"
 #include "mainwindow.h"
 
 class Controller : public QObject
@@ -12,11 +13,11 @@ class Controller : public QObject
 public:
     Controller() {
         DataGenerator *worker = new DataGenerator;
+        ResultWriter *resultWriter = new ResultWriter;
         worker->moveToThread(&workerThread);
-//        connect(workerThread, &QThread::finished, worker, &QObject::deleteLater);
         connect(this, &Controller::start, worker, &DataGenerator::generateData);
-        connect(worker, &DataGenerator::resultReady, this, &Controller::handleResults);
         connect(worker, &DataGenerator::progressUpdate, MainWindow::getInstance(), &MainWindow::progressUpdated);
+        connect(worker, &DataGenerator::resultReady, resultWriter, &ResultWriter::writeToFile);
         workerThread.start();
     }
     ~Controller() {
@@ -24,7 +25,6 @@ public:
         workerThread.wait();
     }
 public slots:
-    void handleResults(const QString &);
     void progressUpdated(const qreal &percent);
 signals:
     void start();

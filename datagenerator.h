@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointF>
 #include <QVector>
-#include <QMap>
+#include <QHash>
 #include <QXmlStreamReader>
 #include <QPolygonF>
 
@@ -20,13 +20,13 @@ public slots:
      void generateData();
 
 private:
-    QMap<QString, int> _words;
+    QHash<QString, int> _words;
     void getTitle(QXmlStreamReader *xmlReader);
     void getDataFromWikiXml();
     void showData();
 
 signals:
-    void resultReady(const QString &result);
+    void resultReady(const QHash<QString, int> &words);
     void progressUpdate(const qreal &persent);
 
 };
