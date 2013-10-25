@@ -13,6 +13,23 @@ DataGenerator::DataGenerator(){}
 void DataGenerator::generateData()
 {
     getDataFromWikiXml();
+    showData();
+    emit resultReady("done");
+}
+
+void DataGenerator::showData()
+{
+    QMap<QString, int>::iterator iter = _words.end()-1;
+    int counter = 0;
+    const int maxCount = 100;
+    while (true)
+    {
+        if (counter>maxCount)
+        {
+            break;
+        }
+        qDebug()<<iter.key() << iter.value();
+    }
 }
 
 void DataGenerator::getTitle(QXmlStreamReader *xmlReader)
@@ -40,27 +57,44 @@ void DataGenerator::getDataFromWikiXml()
             QMessageBox::Ok);
             return;
     }
+    qint64 fileSize = xmlFile->size();
     QXmlStreamReader *xmlReader = new QXmlStreamReader(xmlFile);
-    qDebug() << "everything great here";
+    qDebug() << "Started parsing document";
+    qreal oldPercent = 0;
     //Parse the XML until we reach end of it
     while(!xmlReader->atEnd() && !xmlReader->hasError())
     {
         // Read next element
-        QXmlStreamReader::TokenType token = xmlReader->readNextStartElement();
+        QXmlStreamReader::TokenType token = xmlReader->readNext();
+        qint64 offset = xmlReader->characterOffset();
+        qreal newPercent = ((qreal)offset/fileSize) * 100;
+        if (newPercent>oldPercent+0.01)
+        {
+            oldPercent = newPercent;
+            emit progressUpdate(newPercent);
+        }
+
         //If token is just StartDocument - go to next
         if(token == QXmlStreamReader::StartDocument)
         {
             continue;
         }
         //If token is StartElement - read it
-
-        if (xmlReader->name() == "text")
+        if(token == QXmlStreamReader::StartElement)
         {
-            QString text = xmlReader->readElementText();
-            QStringList words = text.split(" ", QString::SkipEmptyParts);
-            for (auto word:words)
+            if (xmlReader->name() == "text")
             {
-                _words[word]++;
+                QString text = xmlReader->readElementText();
+                QRegExp regExp("(\\W|\\d|\\_)");
+                QStringList words = text.split(regExp, QString::SkipEmptyParts);
+                for (QString word:words)
+                {
+                    if (word.length()>1)
+                    {
+                        word = word.toLower();
+                        _words[word]++;
+                    }
+                }
             }
         }
     }

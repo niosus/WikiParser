@@ -12,10 +12,24 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    static MainWindow* getInstance()
+    {
+     if(!instance)
+     {
+       instance = new MainWindow();
+     }
+     return instance;
+    }
     ~MainWindow();
 
+public slots:
+    void progressUpdated(const qreal &percent);
+
+protected:
+   MainWindow(QWidget* = nullptr);
+
 private:
+    static MainWindow* instance;
     Ui::MainWindow *ui;
 };
 

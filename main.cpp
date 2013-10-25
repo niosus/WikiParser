@@ -1,15 +1,15 @@
 #include "mainwindow.h"
-#include "datagenerator.h"
+#include "controller.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
+    MainWindow* w = MainWindow::getInstance();
+    w->show();
 
-    DataGenerator dataGenerator;
-    dataGenerator.generateData();
+    Controller controller;
+    controller.start();
 
     return a.exec();
 }

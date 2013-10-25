@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QPointF>
 #include <QVector>
-#include <QHash>
+#include <QMap>
 #include <QXmlStreamReader>
 #include <QPolygonF>
 
@@ -14,12 +14,21 @@ class DataGenerator: public QObject
 
 public:
     DataGenerator();
-    void generateData();
+
+
+public slots:
+     void generateData();
 
 private:
-    QHash<QString, int> _words;
+    QMap<QString, int> _words;
     void getTitle(QXmlStreamReader *xmlReader);
     void getDataFromWikiXml();
+    void showData();
+
+signals:
+    void resultReady(const QString &result);
+    void progressUpdate(const qreal &persent);
+
 };
 
 #endif // DATAGENERATOR_H

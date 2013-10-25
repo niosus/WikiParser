@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>square_progress.gif</file>
+        <file>circle_progress.gif</file>
+        <file>spinner_blue.gif</file>
+    </qresource>
+</RCC>
