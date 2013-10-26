@@ -9,7 +9,7 @@ class ResultWriter: public QObject
     Q_OBJECT
 
 public slots:
-    void writeToFile(const QHash<QString, int> &words);
+    void writeToFile(const QHash<QString, qint64> &words);
 };
 
 #endif // RESULT_WRITER_H

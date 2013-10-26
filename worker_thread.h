@@ -15,12 +15,4 @@ signals:
     void resultReady(const QString &s);
 };
 
-//void MyObject::startWorkInAThread()
-//{
-//    WorkerThread *workerThread = new WorkerThread(this);
-//    connect(workerThread, &WorkerThread::resultReady, this, &MyObject::handleResults);
-//    connect(workerThread, &WorkerThread::finished, workerThread, &QObject::deleteLater);
-//    workerThread->start();
-//}
-
 #endif // WORKER_THREAD_H

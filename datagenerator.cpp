@@ -18,7 +18,7 @@ void DataGenerator::generateData()
 
 void DataGenerator::showData()
 {
-    QHash<QString, int>::iterator iter = _words.end()-1;
+    QHash<QString, qint64>::iterator iter = _words.end()-1;
     int counter = 0;
     const int maxCount = 100;
     while (true)
@@ -51,10 +51,8 @@ void DataGenerator::getDataFromWikiXml()
 {
     QFile * xmlFile = new QFile("/home/igor/Documents/WikiDump/enwiki-20130904-pages-articles.xml");
     if (!xmlFile->open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(new QWidget,"Load Wiki Dump File Problem",
-            "Couldn't load wiki xml file",
-            QMessageBox::Ok);
-            return;
+        emit error("No file found");
+        return;
     }
     qint64 fileSize = xmlFile->size();
     QXmlStreamReader *xmlReader = new QXmlStreamReader(xmlFile);
@@ -100,9 +98,7 @@ void DataGenerator::getDataFromWikiXml()
 
     if(xmlReader->hasError())
     {
-        QMessageBox::critical(new QWidget,
-        "xmlFile.xml Parse Error",xmlReader->errorString(),
-        QMessageBox::Ok);
+        emit error(xmlReader->errorString());
         return;
     }
     xmlReader->clear();

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QMovie>
+#include <QMessageBox>
 
 MainWindow* MainWindow::instance = nullptr;
 
@@ -27,4 +28,11 @@ void MainWindow::progressUpdated(const qreal &percent)
 {
     qDebug()<<percent;
     ui->progressBar->setValue(floor(percent));
+}
+
+void MainWindow::showError(const QString &errorMessage)
+{
+    QMessageBox::critical(new QWidget,
+    "Error",errorMessage,
+    QMessageBox::Ok);
 }

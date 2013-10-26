@@ -20,14 +20,15 @@ public slots:
      void generateData();
 
 private:
-    QHash<QString, int> _words;
+    QHash<QString, qint64> _words;
     void getTitle(QXmlStreamReader *xmlReader);
     void getDataFromWikiXml();
     void showData();
 
 signals:
-    void resultReady(const QHash<QString, int> &words);
+    void resultReady(const QHash<QString, qint64> &words);
     void progressUpdate(const qreal &persent);
+    void error(const QString &errorMessage);
 
 };
 

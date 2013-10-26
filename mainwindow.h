@@ -24,6 +24,7 @@ public:
 
 public slots:
     void progressUpdated(const qreal &percent);
+    void showError(const QString &errorMessage);
 
 protected:
    MainWindow(QWidget* = nullptr);
