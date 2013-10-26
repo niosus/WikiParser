@@ -36,3 +36,8 @@ void MainWindow::showError(const QString &errorMessage)
     "Error",errorMessage,
     QMessageBox::Ok);
 }
+
+void MainWindow::close()
+{
+    this->close();
+}

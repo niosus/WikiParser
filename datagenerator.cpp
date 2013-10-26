@@ -5,10 +5,13 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QVector>
+#include <QTextCodec>
 #include <cmath>
 
 
-DataGenerator::DataGenerator(){}
+DataGenerator::DataGenerator(){
+    qRegisterMetaType<WordsCountHash>();
+}
 
 void DataGenerator::generateData()
 {
@@ -18,7 +21,7 @@ void DataGenerator::generateData()
 
 void DataGenerator::showData()
 {
-    QHash<QString, qint64>::iterator iter = _words.end()-1;
+    WordsCountHash::iterator iter = _words.end()-1;
     int counter = 0;
     const int maxCount = 100;
     while (true)
@@ -49,13 +52,14 @@ void DataGenerator::getTitle(QXmlStreamReader *xmlReader)
 
 void DataGenerator::getDataFromWikiXml()
 {
-    QFile * xmlFile = new QFile("/home/igor/Documents/WikiDump/enwiki-20130904-pages-articles.xml");
+    QFile * xmlFile = new QFile("/home/igor/Documents/WikiDump/enwiki-20130604-pages-articles.xml");
     if (!xmlFile->open(QIODevice::ReadOnly)) {
         emit error("No file found");
         return;
     }
     qint64 fileSize = xmlFile->size();
     QXmlStreamReader *xmlReader = new QXmlStreamReader(xmlFile);
+    qDebug() << "Encoding: " << xmlReader->documentEncoding().toString();
     qDebug() << "Started parsing document";
     qreal oldPercent = 0;
     //Parse the XML until we reach end of it

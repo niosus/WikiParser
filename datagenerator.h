@@ -8,6 +8,8 @@
 #include <QXmlStreamReader>
 #include <QPolygonF>
 
+typedef QHash<QString, qint64> WordsCountHash;
+
 class DataGenerator: public QObject
 {
     Q_OBJECT
@@ -15,21 +17,22 @@ class DataGenerator: public QObject
 public:
     DataGenerator();
 
-
 public slots:
      void generateData();
 
 private:
-    QHash<QString, qint64> _words;
+    WordsCountHash _words;
     void getTitle(QXmlStreamReader *xmlReader);
     void getDataFromWikiXml();
     void showData();
 
 signals:
-    void resultReady(const QHash<QString, qint64> &words);
+    void resultReady(const WordsCountHash &words);
     void progressUpdate(const qreal &persent);
     void error(const QString &errorMessage);
 
 };
+
+Q_DECLARE_METATYPE(WordsCountHash);
 
 #endif // DATAGENERATOR_H
