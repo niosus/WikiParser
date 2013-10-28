@@ -3,7 +3,7 @@
 
 void ResultWriter::writeToFile(const WordsCountHash &words)
 {
-    QFile file("words_with_count.dat");
+    QFile file("/home/igor/words_with_count.dat");
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
     qint64 counter = 0;

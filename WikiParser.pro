@@ -17,13 +17,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     datagenerator.cpp \
     controller.cpp \
-    resultwriter.cpp
+    resultwriter.cpp \
+    filereader.cpp
 
 HEADERS  += mainwindow.h \
     datagenerator.h \
     worker_thread.h \
     controller.h \
-    resultwriter.h
+    resultwriter.h \
+    filereader.h
 
 FORMS    += mainwindow.ui
 

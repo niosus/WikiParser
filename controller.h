@@ -5,6 +5,7 @@
 #include "worker_thread.h"
 #include "resultwriter.h"
 #include "mainwindow.h"
+#include "filereader.h"
 
 class Controller : public QObject
 {
@@ -12,10 +13,13 @@ class Controller : public QObject
     QThread workerThread;
 public:
     Controller() {
+        FileReader *fileReader = new FileReader;
         DataGenerator *worker = new DataGenerator;
         ResultWriter *resultWriter = new ResultWriter;
+        fileReader->moveToThread(&workerThread);
         worker->moveToThread(&workerThread);
-        connect(this, &Controller::start, worker, &DataGenerator::generateData);
+//        connect(this, &Controller::start, worker, &DataGenerator::generateData);
+        connect(this, &Controller::start, fileReader, &FileReader::readFile);
         connect(worker, &DataGenerator::progressUpdate, MainWindow::getInstance(), &MainWindow::progressUpdated);
         connect(resultWriter, &ResultWriter::progressUpdate, MainWindow::getInstance(), &MainWindow::progressUpdated);
         connect(resultWriter, &ResultWriter::fileWritten, MainWindow::getInstance(), &MainWindow::close);
